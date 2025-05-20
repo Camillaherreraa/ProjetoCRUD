@@ -42,7 +42,10 @@ function insertItem(user, index) {
     <td>${user.name}</td>
     <td>${user.email}</td>
     <td>${user.password}</td>
-    <td><button onclick="deleteUser(${index})">Excluir</button></td>
+    <td>
+      <button onclick="openModal(true, ${index})">Editar</button>
+      <button onclick="deleteUser(${index})">Excluir</button>
+    </td>
   `;
   tbody.appendChild(tr);
 }
