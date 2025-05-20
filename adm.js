@@ -4,6 +4,7 @@ const sNome = document.querySelector('#m-nome');
 const sEmail = document.querySelector('#m-email');
 const sSenha = document.querySelector('#m-senha');
 const btnSalvar = document.querySelector('#btnSalvar');
+const searchInput = document.querySelector('#search-user'); // Campo de busca
 
 let usuarios = [];
 let id = undefined;
@@ -30,10 +31,13 @@ function openModal(edit = false, index = 0) {
   }
 }
 
-function loadUsuarios() {
+function loadUsuarios(filteredList = null) {
   usuarios = JSON.parse(localStorage.getItem("users") || "[]");
   tbody.innerHTML = "";
-  usuarios.forEach((user, index) => insertItem(user, index));
+
+  const listToRender = filteredList || usuarios;
+
+  listToRender.forEach((user, index) => insertItem(user, index));
 }
 
 function insertItem(user, index) {
@@ -85,3 +89,11 @@ function logout() {
 function renderAdmin() {
   loadUsuarios();
 }
+
+function filterUsuarios() {
+  const term = searchInput.value.trim().toLowerCase();
+  const filtered = usuarios.filter(user => user.name.toLowerCase().includes(term));
+  loadUsuarios(filtered);
+}
+
+searchInput.addEventListener('input', filterUsuarios);
