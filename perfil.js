@@ -39,34 +39,71 @@ function updateFavorites(email) {
   const container = document.getElementById("favorites");
   container.innerHTML = "";
 
+  const selectedGenre = document.getElementById("genre-filter")?.value || "";
+  const genreSet = new Set(); // coletar todos os gêneros únicos
+
   list.forEach(title => {
     fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&t=${encodeURIComponent(title)}`)
       .then(res => res.json())
       .then(details => {
+        if (!details.Genre) return;
+
+        const genres = details.Genre.split(",").map(g => g.trim());
+        genres.forEach(g => genreSet.add(g));
+
+        if (selectedGenre && !genres.includes(selectedGenre)) return;
+
+        // cálculo da média de avaliações de todos os usuários
+        let allRatings = [];
+        for (const user in ratings) {
+          if (ratings[user][title]?.stars) {
+            allRatings.push(ratings[user][title].stars);
+          }
+        }
+        const averageRating = allRatings.length
+          ? (allRatings.reduce((a, b) => a + b) / allRatings.length).toFixed(1)
+          : "N/A";
+
         const userRatings = ratings[email]?.[title] || { stars: 0, comment: "" };
 
         const item = document.createElement("div");
         item.style.marginBottom = "20px";
+        item.style.border = "1px solid #ccc";
+        item.style.padding = "10px";
+        item.style.borderRadius = "8px";
 
         item.innerHTML = `
           <img src="${details.Poster !== 'N/A' ? details.Poster : ''}" style="height:100px;"><br>
           <strong>${details.Title}</strong> (${details.Year})<br>
+          <p>⭐ ${averageRating} (usuários) | 🎬 IMDb: ${details.imdbRating}</p>
           <button onclick="removeFavorite('${details.Title}')">Remover</button><br><br>
 
           <label>Avaliação:</label><br>
           ${[1,2,3,4,5].map(i =>
-            `<input type="radio" name="stars-${title}" value="${i}" ${userRatings.stars === i ? 'checked' : ''} onclick="rateMovie('${title}', ${i})"> ${i} `
-          ).join('')}
+            `<input type="radio" name="stars-${title}" value="${i}" ${userRatings.stars === i ? 'checked' : ''} onclick="rateMovie('${title}', ${i})"> ${i}`
+          ).join(' ')}
           <br><br>
 
           <label>Comentário:</label><br>
-          <textarea rows="3" cols="40" placeholder="Escreva algo..." onchange="commentMovie('${title}', this.value)">${userRatings.comment || ''}</textarea>
+          <textarea rows="3" cols="40" onchange="commentMovie('${title}', this.value)">${userRatings.comment || ''}</textarea>
         `;
 
         container.appendChild(item);
+      })
+      .finally(() => {
+        const genreSelect = document.getElementById("genre-filter");
+        if (genreSelect && genreSelect.options.length <= 1) {
+          [...genreSet].sort().forEach(g => {
+            const option = document.createElement("option");
+            option.value = g;
+            option.textContent = g;
+            genreSelect.appendChild(option);
+          });
+        }
       });
   });
 }
+
 
 function rateMovie(title, stars) {
   const email = localStorage.getItem("currentUser");
@@ -179,4 +216,3 @@ function toggleFavorites() {
     btn.innerText = "Mostrar Favoritos";
   }
 }
-
