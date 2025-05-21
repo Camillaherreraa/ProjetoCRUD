@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Perfil</title>
+</head>
+<body onload="loadProfile()">
+  <h2 id="profile-welcome"></h2>
+
+  <div id="profile-info">
+    <p><strong>Nome:</strong> <span id="user-name"></span> <button onclick="editName()">Editar</button></p>
+    <p><strong>Email:</strong> <span id="user-email"></span></p>
+  </div>
+
+
+  <h3>Buscar Filmes</h3>
+  <input type="text" id="movie-search-box" placeholder="Digite o nome do filme...">
+  <button onclick="searchFromButton()">Buscar</button>
+  <div id="search-list" class="search-list"></div>
+
+  <div id="result-grid"></div>
+
+  <h3>
+    <button onclick="toggleFavorites()">Mostrar Favoritos</button>
+  </h3>
+  <div id="favorites-section" style="display: none;">
+    <h3>Meus Favoritos</h3>
+    <div id="favorites"></div>
+  </div>
+
+
+  <button onclick="logout()">Sair</button>
+
+  <script src="perfil.js"></script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;    
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    background-color: #222; 
+
+   
+    background-image: url('Background.png'); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
+    overflow: hidden; 
+}
+
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75); 
+    z-index: 0; 
+    pointer-events: none; 
+}
+
+
+.container {
+    position: relative; 
+    z-index: 1; 
+    background-color: rgba(25, 25, 25, 0.9);
+    padding: 40px;
+    border-radius: 12px; 
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6); 
+    color: #f0f0f0; 
+    text-align: center;
+    width: 100%;
+    max-width: 400px; 
+    box-sizing: border-box; 
+    animation: fadeIn 0.8s ease-out; 
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.container h2 {
+    font-size: 2.5em; 
+    color: #e0e0e0;
+    margin-bottom: 35px; 
+    font-weight: 600; 
+}
+
+
+.container input {
+    width: calc(100% - 24px); 
+    padding: 12px;
+    margin-bottom: 20px; 
+    background-color: #333; 
+    border: 1px solid #555; 
+    border-radius: 8px; 
+    color: white; 
+    font-size: 1.1em;
+    outline: none; 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; 
+}
+
+.container input:focus {
+    border-color: #007bff; 
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.4); 
+}
+
+
+.container input::placeholder {
+    color: #bbb; 
+    opacity: 0.7;
+}
+
+
+.container button {
+    background-color: #007bff; 
+    color: white;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 8px; 
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease; 
+    letter-spacing: 0.5px; 
+}
+
+.container button:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px); 
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3); 
+}
+
+.container p {
+    margin-top: 30px;
+    font-size: 0.95em;
+    color: #ccc;
+}
+
+
+.container p a {
+    color: #2196f3; 
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.container p a:hover {
+    color: #64b5f6; 
+    text-decoration: underline;
+}
+
+
+.container br {
+    display:none;
+}
